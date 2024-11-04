@@ -1,0 +1,4 @@
+
+openlane config.json --to yosys.synthesis --run-tag synth_only
+
+openlane config.json --to yosys.synthesis --flow SynthesisExploration --run-tag synth_explore
