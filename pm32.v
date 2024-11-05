@@ -12,7 +12,8 @@ module pm32 (
     input wire  [31:0]  mc,
     input wire  [31:0]  mp,
     output reg  [63:0]  p,
-    output wire         done
+    output wire         done,
+    input wire          op // not use for in design, but added for compatibility with tb
 );
     wire        pw;
     reg [31:0]  Y;
