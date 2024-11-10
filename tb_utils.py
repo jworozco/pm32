@@ -1,6 +1,7 @@
 import cocotb
-from cocotb.triggers import FallingEdge
+from cocotb.triggers import ClockCycles, FallingEdge
 from cocotb.queue import QueueEmpty, Queue
+from cocotb.clock import Clock
 import enum
 import logging
 import pyuvm
@@ -68,13 +69,13 @@ class DutBfm(metaclass=pyuvm.Singleton):
 
 # Edit: Centralizing the reset function, check names of clk and rst
     async def reset(self):
+        cocotb.start_soon(Clock(self.dut.clk, 1, units="ns").start())
         self.dut.rst.value = 1 # active high reset
-        await FallingEdge(self.dut.clk)
         self.dut.mc.value = 0
         self.dut.mp.value = 0
         self.dut.op.value = 0
         self.dut.start.value = 0
-        await FallingEdge(self.dut.clk)
+        await ClockCycles(self.dut.clk, 2)
         self.dut.rst.value = 0
         await FallingEdge(self.dut.clk)
 

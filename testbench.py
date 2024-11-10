@@ -95,8 +95,8 @@ class RandomSeq(BaseSeq):
 
 class MaxSeq(BaseSeq):
     def set_operands(self, tr):
-        tr.mc = 0xffffffff
-        tr.mp = 0xffffffff
+        tr.mc = 0xffff_ffff
+        tr.mp = 0xffff_ffff
 
 
 # ## Starting a sequence in a test
@@ -116,7 +116,7 @@ class BaseTest(uvm_test):
         self.raise_objection()
         seq = BaseSeq.create("seq")
         await seq.start(self.seqr)
-        await ClockCycles(cocotb.top.clk, 1000)  # to do last transaction
+        await ClockCycles(cocotb.top.clk, 200)  # to do last transaction
         self.drop_objection()
 
 

@@ -1,4 +1,15 @@
+clean:
+    make clean
 
-openlane config.json --to yosys.synthesis --run-tag synth_only
+sim:
+    make sim
 
-openlane config.json --to yosys.synthesis --flow SynthesisExploration --run-tag synth_explore
+sim and generate waves:
+    make sim WAVES=1
+
+Synth:
+    openlane config.json --to yosys.synthesis --run-tag synth_only
+
+Synth explore:
+    openlane config.json --to yosys.synthesis --flow SynthesisExploration --run-tag synth_explore
+
