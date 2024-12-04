@@ -1,0 +1,28 @@
+[*]
+[*] GTKWave Analyzer v3.3.104 (w)1999-2020 BSI
+[*] Wed Nov  6 02:59:38 2024
+[*]
+[dumpfile] "/home/wallo/Documents/Designs/pm32/sim_build/pm32.fst"
+[dumpfile_mtime] "Wed Nov  6 02:53:27 2024"
+[dumpfile_size] 5777
+[savefile] "/home/wallo/Documents/Designs/pm32/pm32_waves.gtkw"
+[timestart] 199030
+[size] 1517 762
+[pos] -27 21
+*-12.842012 0 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[sst_width] 221
+[signals_width] 213
+[sst_expanded] 1
+[sst_vpaned_height] 200
+@28
+pm32.rst
+pm32.clk
+pm32.start
+pm32.done
+@24
+pm32.mc[31:0]
+pm32.mp[31:0]
+@25
+pm32.p[63:0]
+[pattern_trace] 1
+[pattern_trace] 0
