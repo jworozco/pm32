@@ -33,8 +33,8 @@ async def my_first_test(dut):
     dut.mp.value = 0
     await Timer(5, units="ns")  # wr 10
     dut.start.value = 1
-    dut.mp.value = 10
-    dut.mc.value = 10
+    dut.mp.value = 16
+    dut.mc.value = 16
 
     await Timer(2, units="ns")  # wr 10
     dut.start.value = 0
@@ -42,5 +42,4 @@ async def my_first_test(dut):
     await Timer(150, units="ns")  # wait for multiplication to complete
     await FallingEdge(dut.clk)  # wait for falling edge/"negedge"
 
-    #dut.soc_top._log.info("PC is %s", int(dut.soc_top.PC.value))
-    assert int(dut.p.value) == 100, "p is not 100!"
+    assert int(dut.p.value) == 16*16, "p is not 16*16!"

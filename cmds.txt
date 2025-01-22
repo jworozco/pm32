@@ -11,7 +11,7 @@ Synth:
     openlane config.json --to yosys.synthesis --run-tag synth_only
 
 Synth explore:
-    openlane config.json --to yosys.synthesis --flow SynthesisExploration --run-tag synth_explore
+    openlane config.json --flow SynthesisExploration --run-tag synth_explore
 
 Sta Pre PnR:
     openlane config.json --to openroad.staprepnr --run-tag staprepnr

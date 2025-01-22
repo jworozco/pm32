@@ -2,4 +2,5 @@ runs
 __pycache__
 sim_build
 results.xml
+.vscode
 
