@@ -14,5 +14,18 @@ Synth explore:
     openlane config.json --flow SynthesisExploration --run-tag synth_explore
 
 Sta Pre PnR:
-    openlane config.json --to openroad.staprepnr --run-tag staprepnr
+    openlane config.json --to openroad.staprepnr --run-tag staprepn
+
+Floorplan:
+    openlane config.json --to openroad.floorplan --run-tag floorplan
+
+Floorplan view:
+    openlane --last-run --flow openinklayout config.json
+
+Global Placement:
+    openlane config.json --to openroad.globalplacement --run-tag globalplacement
+
+Detailed Placement:
+    openlane config.json --to openroad.detailedplacement --run-tag detailedplacement
+
 
