@@ -22,10 +22,23 @@ Floorplan:
 Floorplan view:
     openlane --last-run --flow openinklayout config.json
 
+PDN view:
+    openlane config.json --to openroad.generatepdn --run-tag generatepdn
+
+IO placement:
+    openlane config.json --to openroad.ioplacement --run-tag ioplacement
+
 Global Placement:
     openlane config.json --to openroad.globalplacement --run-tag globalplacement
 
 Detailed Placement:
     openlane config.json --to openroad.detailedplacement --run-tag detailedplacement
 
+CTS:
+    openlane config.json --to openroad.cts --run-tag cts
 
+Global Routing:
+    openlane config.json --to openroad.globalrouting --run-tag globalrouting
+
+Detailed Routing:
+    openlane config.json --to openroad.detailedrouting --run-tag detailedrouting

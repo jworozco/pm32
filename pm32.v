@@ -4,6 +4,8 @@
 
 `timescale    1ns/1ps
 `default_nettype    none
+// verilator lint_off TIMESCALEMOD
+
 
 module pm32 (
     input wire          clk,

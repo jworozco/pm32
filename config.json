@@ -3,5 +3,26 @@
     "VERILOG_FILES": ["dir::pm32.v", "dir::spm.v"],
     "CLOCK_PERIOD": 25,
     "CLOCK_PORT": "clk",
-    "PNR_SDC_FILE": "dir::pm32.sdc"
+    "VERILATOR_NONCC_OPTS" : ["Wno-TIMESCALEMOD"],
+    "PNR_SDC_FILE": "dir::pm32.sdc",
+    "SIGNOFF_SDC_FILE": "dir::pm32_final.sdc",
+    "PL_RESIZER_HOLD_MAX_BUFFER_PCT": 80,
+    "pdk::sky130*": {
+        "scl::sky130_fd_sc_hd": {
+            "CLOCK_PERIOD": 25
+        },
+        "scl::sky130_fd_sc_hdll": {
+            "CLOCK_PERIOD": 25
+        },
+        "scl::sky130_fd_sc_hs": {
+            "CLOCK_PERIOD": 25
+        },
+        "scl::sky130_fd_sc_ls": {
+            "CLOCK_PERIOD": 25,
+            "SYNTH_MAX_FANOUT": 5
+        },
+        "scl::sky130_fd_sc_ms": {
+            "CLOCK_PERIOD": 25
+        }
+    }
   }

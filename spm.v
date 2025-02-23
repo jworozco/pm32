@@ -7,7 +7,6 @@
 
     Implemented by mshalan@aucegypt.edu, 2016
 */
-
 `timescale    1ns/1ps
 `default_nettype    none
 
