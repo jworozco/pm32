@@ -42,3 +42,24 @@ Global Routing:
 
 Detailed Routing:
     openlane config.json --to openroad.detailedrouting --run-tag detailedrouting
+
+TDRC:
+    openlane config.json --to checker.trdrc --run-tag trdrc
+
+STA post PNR:
+    openlane config.json --to openroad.stapostpnr --run-tag stapostpnr
+
+IR Drop:
+    openlane config.json --to openroad.irdropreport --run-tag irdropreport
+
+DRC:
+    openlane config.json --to klayout.drc --run-tag drc
+
+Extraction:
+    openlane config.json --to magic.spiceextraction --run-tag extraction
+
+LVS:
+    openlane config.json --to checker.lvs --run-tag lvs
+
+Full:
+    openlane config.json --run-tag full
