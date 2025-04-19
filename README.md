@@ -1,14 +1,14 @@
 # PM32 Project
 
 ## Overview
-The PM32 project corresponds to a logic circuit that does binary multiplication (32 bits). This repository contains all the necessary files, designs, and documentation related to the project. The code of the multiplier is coming from the openlane repo. The testbenches use cocotb, test_my_dut is simple directed test while testbench(2) use UVM to test the design.
+The PM32 project corresponds to a logic circuit that does binary multiplication (32 bits). This repository contains all the necessary files, designs, and documentation related to the project. The code of the multiplier is coming from the openlane repo. The testbenches use cocotb, test_my_dut is simple directed test while testbench(2) use pyUVM to test the design.
 
 ## Features
 - Binary Multiplier of 2 32 inputs mp, mc
 - Multi cicle multiplication calculation
 - Uses Start and Done to initiate operation and indicate completion.
 - This repo uses verilator for simulation (Makefile) and openlane2 for RTL2GDS (config.json)
-- Testbench uses cocotb
+- Testbench uses cocotb and pyuvm
 
 ## Getting Started
 To get started with this project, follow the steps below:
