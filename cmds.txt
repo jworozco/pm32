@@ -7,6 +7,8 @@ sim:
 sim and generate waves:
     make sim WAVES=1
 
+*check the make file to change or update the parameters.
+
 Synth:
     openlane config.json --to yosys.synthesis --run-tag synth_only
 
@@ -63,3 +65,13 @@ LVS:
 
 Full:
     openlane config.json --run-tag full
+
+To run the GUI, run the flow up to the state you want to visualize, then execute:
+
+    To use OpenRoad GUI:
+        openlane --last-run --flow OpenInOpenROAD config.json 
+
+    Or 
+
+    To use OpenInkLayout GUI:
+        openlane --last-run --flow OpenInKLayout config.json (use OpenInkLayout GUI)

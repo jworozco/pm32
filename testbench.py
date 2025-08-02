@@ -76,7 +76,7 @@ class BaseSeq(uvm_sequence):
 
     async def body(self):
         for op in list(Ops):
-            cmd_tr = AluSeqItem("cmd_tr", 0, 0, op)
+            cmd_tr = AluSeqItem("cmd_tr", 16, 16, op)
             await self.start_item(cmd_tr)
             self.set_operands(cmd_tr)
             await self.finish_item(cmd_tr)
@@ -89,14 +89,19 @@ class BaseSeq(uvm_sequence):
 # Edit: Extending BaseSeq to create the random and maximum stimulus
 class RandomSeq(BaseSeq):
     def set_operands(self, tr):
-        tr.mc = random.randint(0, (2**32 -1))
-        tr.mp = random.randint(0, (2**32 -1))
+        tr.mc = random.randint(0, (2**16 -1))
+        tr.mp = random.randint(0, (2**16 -1))
 
 
 class MaxSeq(BaseSeq):
     def set_operands(self, tr):
-        tr.mc = 0xffff_ffff
-        tr.mp = 0xffff_ffff
+        tr.mc = 0x7fff_ffff
+        tr.mp = 0x7fff_ffff
+
+class MinSeq(BaseSeq):
+    def set_operands(self, tr):
+        tr.mc = 0x8000_0000
+        tr.mp = 0x8000_0000
 
 
 # ## Starting a sequence in a test
@@ -132,6 +137,12 @@ class RandomTest(BaseTest):
 class MaxTest(BaseTest):
     def start_of_simulation_phase(self):
         uvm_factory().set_type_override_by_type(BaseSeq, MaxSeq)
+
+
+@pyuvm.test()
+class MinTest(BaseTest):
+    def start_of_simulation_phase(self):
+        uvm_factory().set_type_override_by_type(BaseSeq, MinSeq)
 
 
 class Coverage(uvm_subscriber):

@@ -1,5 +1,5 @@
 import cocotb
-from cocotb.triggers import ClockCycles, FallingEdge
+from cocotb.triggers import ClockCycles, FallingEdge, RisingEdge
 from cocotb.queue import QueueEmpty, Queue
 from cocotb.clock import Clock
 import enum
@@ -23,14 +23,13 @@ class Ops(enum.IntEnum):
 def DutPrediction(A, B, op):
     """Python model of the Design"""
     assert isinstance(op, Ops), "The Design op must be of type Ops"
-    # if op == Ops.ADD:
-    #     result = A + B
-    # elif op == Ops.AND:
-    #     result = A & B
-    # elif op == Ops.XOR:
-    #     result = A ^ B
+    # Convert to signed 32-bit
+    def to_signed(val):
+        return val if val < 0x80000000 else val - 0x100000000
+    A_s = to_signed(A)
+    B_s = to_signed(B)
     if op == Ops.MUL:
-        result = A * B
+        result = A_s * B_s
     return result
 
 
@@ -77,7 +76,7 @@ class DutBfm(metaclass=pyuvm.Singleton):
         self.dut.start.value = 0
         await ClockCycles(self.dut.clk, 2)
         self.dut.rst.value = 0
-        await FallingEdge(self.dut.clk)
+        await RisingEdge(self.dut.clk)
 
 # ## The communication coroutines
 # #### result_mon()
@@ -86,7 +85,7 @@ class DutBfm(metaclass=pyuvm.Singleton):
     async def result_mon(self):
         prev_done = 0
         while True:
-            await FallingEdge(self.dut.clk)
+            await RisingEdge(self.dut.clk)
             done = get_int(self.dut.done)
             if prev_done == 0 and done == 1:
                 result = get_int(self.dut.p)
@@ -98,7 +97,7 @@ class DutBfm(metaclass=pyuvm.Singleton):
     async def cmd_mon(self):
         prev_start = 0
         while True:
-            await FallingEdge(self.dut.clk)
+            await RisingEdge(self.dut.clk)
             start = get_int(self.dut.start)
             if start == 1 and prev_start == 0:
                 cmd_tuple = (get_int(self.dut.mc),
@@ -115,7 +114,7 @@ class DutBfm(metaclass=pyuvm.Singleton):
         self.dut.mp.value = 0
         self.dut.op.value = 0
         while True:
-            await FallingEdge(self.dut.clk)
+            await RisingEdge(self.dut.clk)
             st = get_int(self.dut.start)
             dn = get_int(self.dut.done)
 # Edit: Driving commands to the Design when
@@ -130,10 +129,8 @@ class DutBfm(metaclass=pyuvm.Singleton):
                 except QueueEmpty:
                     continue
 # Edit: If start is 1 check done
-            elif st == 1:
+            elif st == 1 and dn == 0:
                 self.dut.start.value = 0 # testing
-                #if dn == 1:
-                #    self.dut.start.value = 0
 
 # ### Launching the coroutines using start_soon
 # Edit: Start the BFM coroutines
