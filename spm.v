@@ -11,21 +11,21 @@
 `default_nettype    none
 
 module spm #(parameter SIZE = 32)(
-    input wire              clk,
-    input wire              rst,
-    input wire              y,
-    input wire [SIZE-1:0]   x,
-    output wire             p
+    input  logic              clk,
+    input  logic              rst,
+    input  logic              y,
+    input  logic [SIZE-1:0]   x,
+    output logic              p
 );
-    wire [SIZE-1:1]     pp;
-    wire [SIZE-1:0]     xy;
+    logic [SIZE-1:1]     pp;
+    logic [SIZE-1:0]     xy;
 
     genvar i;
 
     CSADD csa0 (.clk(clk), .rst(rst), .x(x[0]&y), .y(pp[1]), .sum(p));
 
     generate
-        for(i=1; i<SIZE-1; i=i+1) begin : gen_csa
+        for(i=1; i<SIZE-1; i++) begin : gen_csa
             CSADD csa (.clk(clk), .rst(rst), .x(x[i]&y), .y(pp[i+1]), .sum(pp[i]));
         end
     endgenerate
@@ -37,25 +37,25 @@ endmodule
 
 // Carry Save Adder
 module CSADD(
-    input wire  clk,
-    input wire  rst,
-    input wire  x,
-    input wire  y,
-    output reg  sum
+    input  logic  clk,
+    input  logic  rst,
+    input  logic  x,
+    input  logic  y,
+    output logic  sum
 );
 
-    reg sc;
+    logic sc;
 
     // Half Adders logic
-    wire hsum1, hco1;
+    logic hsum1, hco1;
     assign hsum1 = y ^ sc;
     assign hco1 = y & sc;
 
-    wire hsum2, hco2;
+    logic hsum2, hco2;
     assign hsum2 = x ^ hsum1;
     assign hco2 = x & hsum1;
 
-    always @(posedge clk or posedge rst) begin
+    always_ff @(posedge clk or posedge rst) begin
         if (rst) begin
             sum <= 1'b0;
             sc <= 1'b0;
@@ -69,23 +69,22 @@ endmodule
 
 // 2's Complement
 module TCMP (
-    input wire  clk,
-    input wire  rst,
-    input wire  a,
-    output reg  s
+    input  logic  clk,
+    input  logic  rst,
+    input  logic  a,
+    output logic  s
 );
 
-    reg z;
+    logic z;
 
-    always @(posedge clk or posedge rst) begin
+    always_ff @(posedge clk or posedge rst) begin
         if (rst) begin
             s <= 1'b0;
             z <= 1'b0;
         end
         else begin
             z <= a | z;
-            s <= a ^ z;
+            s <= a & ~z;  // Pulse only on first occurrence of a=1
         end
     end
-
 endmodule

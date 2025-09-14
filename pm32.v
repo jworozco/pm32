@@ -6,66 +6,79 @@
 `default_nettype    none
 // verilator lint_off TIMESCALEMOD
 
-
 module pm32 (
-    input wire          clk,
-    input wire          rst,
-    input wire          start,
-    input wire  [31:0]  mc,
-    input wire  [31:0]  mp,
-    output reg  [63:0]  p,
-    output wire         done,
-    input wire          op // not use for in design, but added for compatibility with tb
+    input  logic          clk,
+    input  logic          rst,
+    input  logic          start,
+    input  logic [31:0]   mc,
+    input  logic [31:0]   mp,
+    output logic [63:0]   p,
+    output logic          done,
+    input  logic          op // not use for in design, but added for compatibility with tb
 );
-    wire        pw;
-    reg [31:0]  Y;
-    reg [7:0]   cnt, ncnt;
-    reg [1:0]   state, nstate;
+    logic        pw;
+    logic [31:0] Y;
+    logic [7:0]  cnt, ncnt;
+    logic [1:0]  state, nstate;
 
-    localparam  IDLE=0, RUNNING=1, DONE=2;
+    typedef enum logic [1:0] {
+        IDLE    = 2'b00,
+        RUNNING = 2'b01,
+        DONE    = 2'b10
+    } state_t;
 
-    always @(posedge clk or posedge rst)
+    always_ff @(posedge clk or posedge rst) begin
         if(rst)
-            state  <= IDLE;
+            state <= IDLE;
         else
             state <= nstate;
+    end
 
-    always_comb
+    always_comb begin
         case(state)
-            IDLE    :   if(start) nstate = RUNNING; else nstate = IDLE;
-            RUNNING :   if(cnt == 64) nstate = DONE; else nstate = RUNNING;
-            DONE    :   if(start) nstate = RUNNING; else nstate = DONE;
-            default :   nstate = IDLE;
+            IDLE    : nstate = start ? RUNNING : IDLE;
+            RUNNING : nstate = (cnt == 64) ? DONE : RUNNING;
+            DONE    : nstate = start ? RUNNING : DONE;
+            default : nstate = IDLE;
         endcase
+    end
 
-    always @(posedge clk)
-        cnt <= ncnt;
+    always_ff @(posedge clk or posedge rst) begin
+        if(rst)
+            cnt <= '0;
+        else
+            cnt <= ncnt;
+    end
 
-    always_comb
+    always_comb begin
         case(state)
-            IDLE    :   ncnt = 0;
-            RUNNING :   ncnt = cnt + 1;
-            DONE    :   ncnt = 0;
-            default :   ncnt = 0;
+            IDLE    : ncnt = '0;
+            RUNNING : ncnt = cnt + 1'b1;
+            DONE    : ncnt = '0;
+            default : ncnt = '0;
         endcase
+    end
 
-    always @(posedge clk or posedge rst)
+    always_ff @(posedge clk or posedge rst) begin
         if(rst)
-            Y <= 32'b0;
-        else if((start == 1'b1))
-            Y <= mp;
-        else if(state==RUNNING)
-            Y <= (Y >> 1);
-
-    always @(posedge clk or posedge rst)
-        if(rst)
-            p <= 64'b0;
+            Y <= '0;
         else if(start)
-            p <= 64'b0;
-        else if(state==RUNNING)
-            p <= {pw, p[63:1]};
+            Y <= mp;
+        else if(state == RUNNING)
+            Y <= Y >> 1;
+    end
 
-    wire y = (state==RUNNING) ? Y[0] : 1'b0;
+    always_ff @(posedge clk or posedge rst) begin
+        if(rst)
+            p <= '0;
+        else if(start)
+            p <= '0;
+        else if(state == RUNNING)
+            p <= {pw, p[63:1]};
+    end
+
+    logic y;
+    assign y = (state == RUNNING) ? Y[0] : 1'b0;
 
     spm #(.SIZE(32)) spm32(
         .clk(clk),
@@ -78,3 +91,6 @@ module pm32 (
     assign done = (state == DONE);
 
 endmodule
+
+// synthesis translate_off
+// synthesis translate_on
