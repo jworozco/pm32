@@ -158,3 +158,18 @@ Contributions are welcome! Please follow the steps below to contribute:
 ## License
 This project is licensed under the MIT license. See the `LICENSE` file for details.
 
+## Development Setup
+
+To set up the development environment with code quality checks:
+
+```bash
+# Install pre-commit
+pip install pre-commit
+
+# Install the git hooks
+pre-commit install
+
+# (Optional) Run hooks on all files
+pre-commit run --all-files
+```
+
