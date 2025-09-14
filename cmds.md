@@ -25,105 +25,105 @@ make sim WAVES=1
 
 ### Basic Synthesis
 ```bash
-openlane config.json --to yosys.synthesis --run-tag synth_only
+librelane config.json --to yosys.synthesis --run-tag synth_only
 ```
 
 ### Synthesis Exploration
 ```bash
-openlane config.json --flow SynthesisExploration --run-tag synth_explore
+librelane config.json --flow SynthesisExploration --run-tag synth_explore
 ```
 
 ## Static Timing Analysis (STA)
 
 ### Pre Place & Route STA
 ```bash
-openlane config.json --to openroad.staprepnr --run-tag staprepnr
+librelane config.json --to openroad.staprepnr --run-tag staprepnr
 ```
 
 ### Post Place & Route STA
 ```bash
-openlane config.json --to openroad.stapostpnr --run-tag stapostpnr
+librelane config.json --to openroad.stapostpnr --run-tag stapostpnr
 ```
 
 ## Physical Design Flow
 
 ### Floorplan
 ```bash
-openlane config.json --to openroad.floorplan --run-tag floorplan
+librelane config.json --to openroad.floorplan --run-tag floorplan
 ```
 
 ### View Floorplan
 ```bash
-openlane --last-run --flow openinklayout config.json
+librelane --last-run --flow openinklayout config.json
 ```
 
 ### Power Distribution Network (PDN)
 ```bash
-openlane config.json --to openroad.generatepdn --run-tag generatepdn
+librelane config.json --to openroad.generatepdn --run-tag generatepdn
 ```
 
 ### I/O Placement
 ```bash
-openlane config.json --to openroad.ioplacement --run-tag ioplacement
+librelane config.json --to openroad.ioplacement --run-tag ioplacement
 ```
 
 ### Global Placement
 ```bash
-openlane config.json --to openroad.globalplacement --run-tag globalplacement
+librelane config.json --to openroad.globalplacement --run-tag globalplacement
 ```
 
 ### Detailed Placement
 ```bash
-openlane config.json --to openroad.detailedplacement --run-tag detailedplacement
+librelane config.json --to openroad.detailedplacement --run-tag detailedplacement
 ```
 
 ### Clock Tree Synthesis (CTS)
 ```bash
-openlane config.json --to openroad.cts --run-tag cts
+librelane config.json --to openroad.cts --run-tag cts
 ```
 
 ### Global Routing
 ```bash
-openlane config.json --to openroad.globalrouting --run-tag globalrouting
+librelane config.json --to openroad.globalrouting --run-tag globalrouting
 ```
 
 ### Detailed Routing
 ```bash
-openlane config.json --to openroad.detailedrouting --run-tag detailedrouting
+librelane config.json --to openroad.detailedrouting --run-tag detailedrouting
 ```
 
 ## Verification & Analysis
 
 ### Technology Design Rule Check (TDRC)
 ```bash
-openlane config.json --to checker.trdrc --run-tag trdrc
+librelane config.json --to checker.trdrc --run-tag trdrc
 ```
 
 ### IR Drop Analysis
 ```bash
-openlane config.json --to openroad.irdropreport --run-tag irdropreport
+librelane config.json --to openroad.irdropreport --run-tag irdropreport
 ```
 
 ### Design Rule Check (DRC)
 ```bash
-openlane config.json --to klayout.drc --run-tag drc
+librelane config.json --to klayout.drc --run-tag drc
 ```
 
 ### SPICE Extraction
 ```bash
-openlane config.json --to magic.spiceextraction --run-tag extraction
+librelane config.json --to magic.spiceextraction --run-tag extraction
 ```
 
 ### Layout vs. Schematic (LVS)
 ```bash
-openlane config.json --to checker.lvs --run-tag lvs
+librelane config.json --to checker.lvs --run-tag lvs
 ```
 
 ## Complete Flow
 
 ### Full RTL-to-GDS Flow
 ```bash
-openlane config.json --run-tag full
+librelane config.json --run-tag full
 ```
 
 ## GUI Visualization
@@ -132,12 +132,12 @@ To run the GUI, execute the flow up to the desired state, then use one of the fo
 
 ### OpenROAD GUI
 ```bash
-openlane --last-run --flow OpenInOpenROAD config.json
+librelane --last-run --flow OpenInOpenROAD config.json
 ```
 
 ### KLayout GUI
 ```bash
-openlane --last-run --flow OpenInKLayout config.json
+librelane --last-run --flow OpenInKLayout config.json
 ```
 
 ## Command Flow Overview
