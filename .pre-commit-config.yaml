@@ -1,0 +1,15 @@
+repos:
+  - repo: local
+    hooks:
+      - id: pm32-tests
+        name: PM32 Simulation Tests
+        entry: bash -c 'make clean && make sim'
+        language: system
+        pass_filenames: false
+        stages: [pre-commit]
+      - id: python-linting
+        name: Python Code Quality
+        entry: flake8
+        language: python
+        files: '\.py$'
+        args: ["--max-line-length=100", "--extend-ignore=E203,W503,F401,F403,F405,W293,W504,D401"]
