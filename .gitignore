@@ -4,4 +4,5 @@ sim_build
 results.xml
 .vscode
 out
+debug
 
