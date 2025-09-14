@@ -1,0 +1,40 @@
+@startuml PM32 Timing Diagram
+
+!theme plain
+title PM32 32-bit Serial Multiplier Timing Diagram
+
+clock "clk" as clk with period 1
+
+binary "rst" as rst
+binary "start" as start
+binary "done" as done
+concise "mc[31:0]" as mc
+concise "mp[31:0]" as mp
+concise "p[63:0]" as p
+
+rst is high
+start is low
+done is low
+mc is "XXXXXXXX"
+mp is "XXXXXXXX"
+p is "XXXXXXXXXXXXXXXX"
+
+@0
+rst is low
+
+@1
+mc is "12345678"
+mp is "1BCDEF01"
+start is high
+
+@2
+start is low
+p is "calculating"
+
+@65
+done is high
+p is "01F721C28B9C1A98"
+
+@70
+
+@enduml
